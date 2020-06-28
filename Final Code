@@ -1,0 +1,211 @@
+//Harris Kazi 6/27/2020
+
+const int ledPinR = 8;   //r RGB
+const int ledPinG = 9;   //g RGB
+const int ledPinB = 10;  //b RGB
+
+const int buttonPinR = 4; //r button
+const int buttonPinG = 5; // g button
+const int buttonPinB = 6; //b button
+const int buttonPinSAMPLE = 7; //sample run
+
+int buttonStateR = 0;
+int buttonStateG = 0;
+int buttonStateB = 0;
+int buttonStateSAMPLE = 0;
+
+int redValue = 0;
+int greenValue = 0;
+int blueValue = 0;
+
+//For Sample 
+int rVal = 254;
+int gVal = 1;
+int bVal = 127;
+
+int rDir = -1;
+int gDir = 1;
+int bDir = -1;
+//
+
+
+void setup()
+{
+  Serial.begin(9600);
+  
+  pinMode(ledPinR,OUTPUT);
+  pinMode(ledPinG,OUTPUT);
+  pinMode(ledPinB,OUTPUT);
+  
+  pinMode(buttonPinR,INPUT);
+  pinMode(buttonPinG,INPUT);
+  pinMode(buttonPinB, INPUT);
+  pinMode(buttonPinSAMPLE, INPUT);
+}
+
+void loop()
+{
+  buttonStateR = digitalRead(buttonPinR);
+  buttonStateG = digitalRead(buttonPinG);
+  buttonStateB = digitalRead(buttonPinB); 
+  buttonStateSAMPLE = digitalRead(buttonPinSAMPLE);
+  
+  if(buttonStateR == HIGH)
+  {
+    if(redValue == 240)
+    {
+      redValue = 0;
+    }
+    color(redValue,greenValue,blueValue);
+    redValue = redValue + 20;
+    Serial.println(redValue);
+    Serial.println(greenValue);
+    Serial.println(blueValue);
+    Serial.println("++++++++BUTTON PRESSED+++++++++");
+    delay(500);
+  }
+  else
+  {
+    Serial.println("---------BUTTON NOT PRESSED-----------");
+  } 
+  ////////////////////////////////////
+  if(buttonStateG == HIGH)
+  {
+    if(greenValue == 240)
+    {
+      greenValue = 0;
+    }
+    color(redValue,greenValue,blueValue);
+    greenValue = greenValue + 20;
+    Serial.println(redValue);
+    Serial.println(greenValue);
+    Serial.println(blueValue);
+    Serial.println("++++++++BUTTON PRESSED+++++++++");
+    delay(500);
+  }
+  else
+  {
+    Serial.println("---------BUTTON NOT PRESSED-----------");
+  }
+  /////////////////////////////////////
+  if(buttonStateB == HIGH)
+  {
+    if(blueValue == 240)
+    {
+      blueValue = 0;
+    }
+    color(redValue,greenValue,blueValue);
+    blueValue = blueValue + 20;
+    Serial.println(redValue);
+    Serial.println(greenValue);
+    Serial.println(blueValue);
+    Serial.println("++++++++BUTTON PRESSED+++++++++");
+    delay(500);
+  }
+  else
+  {
+    Serial.println("---------BUTTON NOT PRESSED-----------");
+  }
+
+  if(buttonStateSAMPLE == HIGH)
+  {
+    Serial.println("=================SAMPLE ACTIVE======================");
+      sample();
+  }
+
+
+}
+
+
+void color(unsigned char red, unsigned char green, unsigned char blue)
+{ 
+    analogWrite(ledPinR,red);
+    analogWrite(ledPinG,green);
+    analogWrite(ledPinB,blue);
+}
+
+void sample()
+{
+  int redV = 250;
+  int greenV = 0;
+  int blueV = 0;
+  for(int greenValue = 0;greenValue<250;greenValue+=10)
+  {
+      color(redV,greenValue,0);
+      delay(150);
+      redValue = redValue - 10;
+  }
+  for(int blueValue = 0;blueValue<250;blueValue+=10)
+  {
+      color(redValue,greenValue,blueValue);
+      delay(150);
+      greenValue = greenValue - 10;
+  }
+  
+  redValue = 0;
+  greenValue = 0;
+  blueValue = 0;
+  color(redValue,greenValue,blueValue);
+  
+  for(int i =0;i<250;i+=10)
+  {
+    redValue +=10;
+    blueValue +=10;
+    color(redValue,greenValue,blueValue);
+    delay(200);
+  }
+  
+  redValue = 0;
+  greenValue = 0;
+  blueValue = 0;
+  color(redValue,greenValue,blueValue);
+  
+  for(int i =0;i<250;i+=10)
+  {
+    redValue +=10;
+    greenValue +=10;
+    color(redValue,greenValue,blueValue);
+    delay(200);
+  }
+  
+  redValue = 0;
+  greenValue = 0;
+  blueValue = 0;
+  color(redValue,greenValue,blueValue);
+   
+  for(int i =0;i<250;i+=10)
+  {
+    greenValue +=10;
+    blueValue +=10;
+    color(redValue,greenValue,blueValue);
+    delay(150);
+  }
+  redValue = 0;
+  greenValue = 0;
+  blueValue = 0;
+  color(redValue,greenValue,blueValue);
+   
+  for(int i =0;i<250;i+=10)
+  {
+    redValue += 10;
+    greenValue +=10;
+    blueValue +=10;
+    color(redValue,greenValue,blueValue);
+    delay(150);
+  }
+  redValue = 0;
+  greenValue = 0;
+  blueValue = 0;
+  
+  color(0,0,0);
+  delay(2000);
+  color(255,255,0);
+  delay(2000);
+  color(255,0,255);
+  delay(2000);
+  color(0,255,255);
+  delay(2000);
+  color(255,255,255);
+  delay(2000);
+  color(0,0,0);
+}
